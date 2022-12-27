@@ -8,23 +8,57 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
+class User(Base):
+    __tablename__ = 'principal_user'
+    # Here we define columns for the table principal_user
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    last_name = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    phone = Column(Integer, nullable=False)
+    password = Column(String(250), nullable=False)
+    registration_date = Column(String(250), nullable=False)
 
-class Address(Base):
-    __tablename__ = 'address'
+class Character_Game_of_Thrones(Base):
+    __tablename__ = 'characters_got'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    character_name = Column(String(250))
+    last_name = Column(String(250))
+
+class FAV_Character_Game_of_Thrones(Base):
+    __tablename__ = 'fav_characters_got'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    character_name = Column(String(250))
+    last_name = Column(String(250))
+    principal_user_id = Column(Integer, ForeignKey('principal_user.id'))
+    character_got_id = Column(Integer, ForeignKey('characters_got.id'))
+    relationship_characters = relationship ('Character_Game_of_Thrones')
+    relationship_user = relationship ('principal_user')
+
+class House_Game_of_Thrones(Base):
+    __tablename__ = 'houses_got'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    character_name = Column(String(250))
+    last_name = Column(String(250))
+
+class FAV_House_Game_of_Thrones(Base):
+    __tablename__ = 'fav_houses_got'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    character_name = Column(String(250))
+    last_name = Column(String(250))
+    principal_user_id = Column(Integer, ForeignKey('principal_user.id'))
+    houses_got_id = Column(Integer, ForeignKey('houses_got.id'))
+    relationship_houses = relationship ('houses_got')
+    relationship_user = relationship ('principal_user')
 
     def to_dict(self):
         return {}
